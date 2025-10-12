@@ -31,9 +31,11 @@ export default function Navigation({ activeSection, onNavigate }: NavigationProp
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-[#003366] to-[#004080] rounded-lg flex items-center justify-center">
-              <Bot className="text-[#FFD700]" size={28} />
-            </div>
+            <img
+              src="/srm-logo.svg"
+              alt="SRM Institute of Science and Technology"
+              className="w-12 h-12 object-contain rounded-lg"
+            />
             <div>
               <h1 className="text-xl font-bold text-[#003366]">SRM E-Yantra Lab</h1>
               <p className="text-xs text-gray-600">Inventory Management System</p>

@@ -13,9 +13,11 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                <Bot className="text-[#FFD700]" size={24} />
-              </div>
+              <img
+                src="/srm-logo.svg"
+                alt="SRM Institute of Science and Technology"
+                className="w-10 h-10 object-contain rounded-lg bg-white bg-opacity-20 p-1"
+              />
               <div>
                 <h3 className="font-bold text-lg">SRM E-Yantra Lab</h3>
                 <p className="text-sm text-gray-300">Inventory System</p>
