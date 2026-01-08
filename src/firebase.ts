@@ -5,13 +5,13 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB5DCJ-cxWLWua-jDkJyT79A4ZGqjnP7h4",
-  authDomain: "eyantra-lab.firebaseapp.com",
-  projectId: "eyantra-lab",
-  storageBucket: "eyantra-lab.appspot.com",
-  messagingSenderId: "272392375699",
-  appId: "1:272392375699:web:4dede12eab55c44c0aec66",
-  measurementId: "G-XK6DF70V55"
+  apiKey: "AIzaSyCmj2I362fDKWT3MIkSj_IKmI_ZSe57RZY",
+  authDomain: "srm-eyantra.firebaseapp.com",
+  projectId: "srm-eyantra",
+  storageBucket: "srm-eyantra.firebasestorage.app",
+  messagingSenderId: "581385475502",
+  appId: "1:581385475502:web:aff5609cca261f3a7ae43f",
+  measurementId: "G-X2J37FZB73"
 };
 
 // Initialize Firebase
