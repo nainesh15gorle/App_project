@@ -22,6 +22,9 @@ app.use(cors({
   credentials:true,
 }));
 app.use(bodyParser.json());
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 // ✅ Initialize Firebase Admin (backend SDK)
 import fs from "fs";
