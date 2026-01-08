@@ -11,7 +11,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <img
-                src="/dist/srm-logo.png"
+                src="/dist/assets/srm-logo-CN5t8uGG.png"
                 alt="SRM Institute of Science and Technology"
                 className="w-15 h-10 object-contain rounded-lg bg-white bg-opacity-20 p-1"
               />

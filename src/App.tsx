@@ -51,7 +51,7 @@ const AppContent: React.FC = () => {
             {/* Left: Logo */}
             <div className="flex items-center mr-10">
               <img
-                src="/dist/srm-logo.png"
+                src="/dist/assets/srm-logo-CN5t8uGG.png"
                 alt="SRM Logo"
                 className="w-[100px] h-auto"
               />
