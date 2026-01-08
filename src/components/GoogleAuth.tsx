@@ -21,8 +21,8 @@ const LoginPage: React.FC = () => {
 
       setUser(result.user);
 
-      // Redirect to dashboard with username
-      navigate("/dashboard", { state: { name: result.user.displayName } });
+      // Redirect to home with username
+      navigate("/home", { state: { name: result.user.displayName } });
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed. Please check console for details.");
@@ -44,7 +44,10 @@ const LoginPage: React.FC = () => {
 
       {/* Card */}
       <div className="relative bg-white bg-opacity-10 backdrop-blur-lg rounded-3xl p-10 w-full max-w-md shadow-2xl border border-white border-opacity-20 text-center">
-        <h1 className="text-3xl font-bold mb-2 text-[#FFD700]">SRM E-Yantra</h1>
+        <h1 className="text-4xl font-extrabold mb-3 text-[#FFD700] glow-text">
+          Welcome!!
+        </h1>
+        <h2 className="text-2xl font-bold mb-1 text-[#FFD700]">SRM E-Yantra</h2>
         <p className="text-gray-200 mb-8">Inventory Management Login</p>
 
         {!user ? (

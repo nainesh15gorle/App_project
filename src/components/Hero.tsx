@@ -70,12 +70,18 @@ export default function Hero() {
 
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <button className="px-8 py-3 bg-[#FFD700] text-[#003366] rounded-lg hover:bg-yellow-500 transition-all duration-300 font-semibold flex items-center justify-center gap-2 group">
+              <button
+                onClick={() => navigate("/inventory")}
+                className="px-8 py-3 bg-[#FFD700] text-[#003366] rounded-lg hover:bg-yellow-500 transition-all duration-300 font-semibold flex items-center justify-center gap-2 group"
+              >
                 Browse Inventory
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
 
-              <button className="px-8 py-3 bg-white bg-opacity-10 backdrop-blur-sm border-2 border-white border-opacity-30 rounded-lg hover:bg-opacity-20 transition-all duration-300 font-semibold">
+              <button
+                onClick={() => navigate("/contact")}
+                className="px-8 py-3 bg-white bg-opacity-10 backdrop-blur-sm border-2 border-white border-opacity-30 rounded-lg hover:bg-opacity-20 transition-all duration-300 font-semibold"
+              >
                 Contact Us
               </button>
 
@@ -92,7 +98,6 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
     </div>
   );
 }

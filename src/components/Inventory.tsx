@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Package } from 'lucide-react';
 
 export default function ItemDisplay() {
   const [items, setItems] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Fetch items from backend
@@ -17,15 +18,49 @@ export default function ItemDisplay() {
       .catch((err) => console.error('❌ Fetch error:', err.message));
   }, []);
 
-  // Smooth scroll handlers
-  const scrollLeft = () => scrollRef.current?.scrollBy({ left: -600, behavior: 'smooth' });
-  const scrollRight = () => scrollRef.current?.scrollBy({ left: 600, behavior: 'smooth' });
+  // Smooth, responsive scroll handlers
+  const scrollByAmount = () => {
+    const container = scrollRef.current;
+    if (!container) return 0;
+    // Scroll by ~80% of the visible width for a smoother experience
+    return container.clientWidth * 0.8;
+  };
+
+  const scrollLeft = () => {
+    const amount = scrollByAmount();
+    if (amount) {
+      scrollRef.current?.scrollBy({ left: -amount, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    const amount = scrollByAmount();
+    if (amount) {
+      scrollRef.current?.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+  };
+
+  // Filter items based on search term
+  const filteredItems = items.filter((item) =>
+    item.COMPONENTS?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="relative bg-gray-50 py-10">
-      <h2 className="text-2xl font-bold text-center text-[#003366] mb-6">
+      <h2 className="text-2xl font-bold text-center text-[#003366] mb-4">
         Inventory Components
       </h2>
+
+      {/* Search Bar */}
+      <div className="flex justify-center mb-6 px-4">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search components..."
+          className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+        />
+      </div>
 
       {/* Scroll Buttons */}
       <button
@@ -40,7 +75,7 @@ export default function ItemDisplay() {
         ref={scrollRef}
         className="flex overflow-x-auto gap-6 px-12 scroll-smooth scrollbar-hide"
       >
-        {items.map((item, i) => (
+        {filteredItems.map((item, i) => (
           <div
             key={i}
             className="min-w-[280px] max-w-[280px] bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 flex flex-col items-center justify-center border border-gray-100"

@@ -17,6 +17,11 @@
     animation: scaleIn 0.3s ease-in-out;
   }
 
+  .glow-text {
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7), 0 0 16px rgba(255, 215, 0, 0.6);
+    animation: glow 1.8s ease-in-out infinite alternate;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -36,6 +41,17 @@
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 4px rgba(255, 215, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.4);
+      transform: scale(1);
+    }
+    to {
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 24px rgba(255, 215, 0, 0.8);
+      transform: scale(1.03);
     }
   }
 }
