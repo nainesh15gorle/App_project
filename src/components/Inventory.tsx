@@ -10,7 +10,7 @@ export default function ItemDisplay() {
   // Fetch items from backend
   useEffect(() => {
     axios
-      .get('http://localhost:3000/items')
+      .get('https://app-project-7ogo.onrender.com/items')
       .then((res) => {
         console.log('✅ Items fetched:', res.data);
         setItems(res.data);
