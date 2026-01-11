@@ -17,14 +17,12 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-  origin:"https://srm-eyantralab.vercel.app",
+  origin:["https://srm-eyantralab.vercel.app","http://localhost:5173"],
   methods:["GET","POST","PUT","DELETE"],
   credentials:true,
 }));
 app.use(bodyParser.json());
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
+
 
 // ✅ Initialize Firebase Admin (backend SDK)
 import fs from "fs";

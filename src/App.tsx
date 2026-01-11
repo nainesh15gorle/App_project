@@ -67,10 +67,10 @@ const AppContent: React.FC = () => {
                 Inventory
               </Link>
               <Link to="/dashboard" className="hover:text-blue-700">
-                Dashboard
+                Borrow/Return
               </Link>
               <Link to="/transactions" className="hover:text-blue-700">
-                Transactions
+                Transactions History
               </Link>
               <Link to="/contact" className="hover:text-blue-700">
                 Contact
