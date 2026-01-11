@@ -11,7 +11,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "./firebase";
 
 import Hero from "./components/Hero";
-import Dashboard from "./components/Dashboard";
+import BorrowReturnForm from "./components/BorrowForm";
 import Inventory from "./components/Inventory";
 import Transactions from "./components/Transactions";
 import Contact from "./components/Contact";
@@ -86,7 +86,7 @@ const AppContent: React.FC = () => {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<Hero />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<BorrowReturnForm/>} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/contact" element={<Contact />} />
