@@ -46,7 +46,7 @@ export default function ItemDisplay() {
   );
 
   return (
-    <div className="relative bg-gray-50 py-10">
+    <div className="relative bg-gray-50 py-10 overflow-x-hidden">
       <h2 className="text-2xl font-bold text-center text-[#003366] mb-4">
         Inventory Components
       </h2>
@@ -62,10 +62,10 @@ export default function ItemDisplay() {
         />
       </div>
 
-      {/* Scroll Buttons */}
+      {/* Scroll Buttons - visible on tablet/desktop, mobile uses swipe */}
       <button
         onClick={scrollLeft}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[#003366] text-white p-3 rounded-full shadow hover:bg-[#004080]"
+        className="hidden md:flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 bg-[#003366] text-white p-3 rounded-full shadow hover:bg-[#004080]"
       >
         <ChevronLeft size={24} />
       </button>
@@ -73,12 +73,12 @@ export default function ItemDisplay() {
       {/* Scrollable Container */}
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto gap-6 px-12 scroll-smooth scrollbar-hide"
+        className="flex overflow-x-auto gap-4 px-4 sm:px-8 md:px-12 pb-4 scroll-smooth scrollbar-hide"
       >
         {filteredItems.map((item, i) => (
           <div
             key={i}
-            className="min-w-[280px] max-w-[280px] bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 flex flex-col items-center justify-center border border-gray-100"
+            className="min-w-[220px] sm:min-w-[260px] md:min-w-[280px] max-w-xs bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-4 sm:p-6 flex flex-col items-center justify-center border border-gray-100"
           >
             <div className="bg-[#003366]/10 p-4 rounded-full mb-4">
               <Package size={40} className="text-[#003366]" />
@@ -96,7 +96,7 @@ export default function ItemDisplay() {
       {/* Right Scroll Button */}
       <button
         onClick={scrollRight}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#003366] text-white p-3 rounded-full shadow hover:bg-[#004080]"
+        className="hidden md:flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 bg-[#003366] text-white p-3 rounded-full shadow hover:bg-[#004080]"
       >
         <ChevronRight size={24} />
       </button>
