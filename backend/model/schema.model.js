@@ -1,31 +1,22 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
-const Schema = mongoose.Schema;
+const ItemSchema = new Schema(
+  {
+    COMPONENTS: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
 
-const ItemSchema = new Schema({
-    name: {
-        type: String,
-        required: true
+    QUANTITY: {
+      type: Number,
+      required: true,
+      min: 0,
     },
-    material_name: {
-        type: String,
-        required: true
-    },
-    quantity: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    description: {
-        type: String,
-        required: false
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-},{ collection: 'test' });
+  },
+  { collection: "items" }
+);
 
-const Item = mongoose.model('test', ItemSchema);
-
-export default Item;
+export default mongoose.model("Item", ItemSchema);
