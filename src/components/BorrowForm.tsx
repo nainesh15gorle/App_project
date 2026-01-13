@@ -19,7 +19,7 @@ import AutorenewIcon from "@mui/icons-material/Autorenew";
 
 /* ================= CONFIG ================= */
 
-const API_BASE_URL = "https://app-project-7ogo.onrender.com";
+const API_BASE_URL = "https://app-project-1-uqey.onrender.com";
 
 /* ================= TYPES ================= */
 
