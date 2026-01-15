@@ -6,7 +6,7 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-[#003366] mb-3">Contact Us</h2>
-          <p className="text-gray-600">Get in touch with the SRM E-Yantra Lab team</p>
+          <p className="text-gray-600">Get in touch with the Spacial Computing Lab team</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -21,7 +21,7 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold mb-1">Address</h4>
                   <p className="text-gray-100">
-                    SRM Institute of Science and Technology<br />
+                    Tech Park- 15 Floor ,SRM UNIVERSITY<br />
                     Kattankulathur, Chennai - 603203<br />
                     Tamil Nadu, India
                   </p>
@@ -61,8 +61,9 @@ export default function Contact() {
                   <h4 className="font-semibold mb-1">Lab Hours</h4>
                   <p className="text-gray-100">
                     Monday - Friday: 9:00 AM - 5:00 PM<br />
-                    Saturday: 9:00 AM - 1:00 PM<br />
+                    Saturday: 9:00 AM - 5:00 PM<br />
                     Sunday: Closed
+            
                   </p>
                 </div>
               </div>
@@ -70,11 +71,11 @@ export default function Contact() {
           </div>
 
           <div className="bg-gray-50 rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-[#003366] mb-6">About E-Yantra Lab</h3>
+            <h3 className="text-2xl font-bold text-[#003366] mb-6">About Spatial Computing Lab</h3>
 
             <div className="space-y-4 text-gray-700">
               <p>
-                The SRM E-Yantra Lab is a state-of-the-art robotics and embedded systems
+                The Spatial Computing Lab is a state-of-the-art robotics and embedded systems
                 laboratory designed to foster innovation and hands-on learning.
               </p>
 
@@ -99,7 +100,7 @@ export default function Contact() {
 
               <div className="mt-6 p-4 bg-[#FFD700] bg-opacity-20 border-l-4 border-[#FFD700] rounded">
                 <p className="text-sm font-medium text-gray-800">
-                  For component checkout requests or lab access, please contact us during
+                  NOTE: For component checkout requests or lab access, please contact us during
                   lab hours or send an email with your requirements.
                 </p>
               </div>
