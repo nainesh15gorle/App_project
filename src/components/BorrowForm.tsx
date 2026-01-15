@@ -25,7 +25,7 @@ const API_BASE_URL = "https://app-project-1-uqey.onrender.com";
 
 interface InventoryItem {
   COMPONENTS: string;
-  QUANTITY: number;
+  QUANTITY: number; 
 }
 
 interface UserState {

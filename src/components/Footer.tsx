@@ -52,25 +52,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h4 className="font-semibold mb-3">Contact Info</h4>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2">
-                <Mail size={16} />
-                <a
-                  href="mailto:eyantra@srmist.edu.in"
-                  className="hover:text-[#FFD700] transition-colors"
-                >
-                  eyantra@srmist.edu.in
-                </a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone size={16} />
-                <span>+91 44 2745 xxxx</span>
-              </li>
-            </ul>
-          </div>
+          {/* Lab Hours */}
+<div className="flex items-center justify-end">
+  <img
+    src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768457283/strip_kcwzi6.png"
+    alt="SRM Logo"
+    className="w-full max-w-[4400px] h-auto object-contain rounded-lg bg-white bg-opacity-20 p-1"
+  />
+</div>
+
         </div>
 
         <div className="pt-6 border-t border-white border-opacity-20 text-center text-sm text-gray-400">

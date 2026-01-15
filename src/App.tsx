@@ -57,7 +57,7 @@ const AppContent: React.FC = () => {
                 onClick={() => setIsNavOpen(false)}
               >
                 <img
-                  src="/dist/assets/srm-logo-CN5t8uGG.png"
+                  src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768457377/srm-logo-CN5t8uGG_jiilzz.png"
                   alt="SRM Logo"
                   className="w-24 h-auto flex-shrink-0"
                 />
