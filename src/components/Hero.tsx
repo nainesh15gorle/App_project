@@ -44,6 +44,18 @@ export default function Hero() {
         </div>
       )}
 
+      {/* Hero logo with animated glow */}
+      <div
+        className="absolute right-8 mr-20 rounded-3xl hero-logo-glow"
+        style={{ width: "400px", height: "400px", top: "120px" }}
+      >
+        <img
+          src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768458362/logo_kcf8rw.png"
+          alt="Spatial Computing Lab logo"
+          className="w-full h-full rounded-3xl object-contain"
+        />
+      </div>
+
       {/* Main Content */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="flex flex-col md:flex-row items-center gap-12">

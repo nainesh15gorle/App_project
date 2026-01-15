@@ -42,6 +42,14 @@ textarea {
     animation: glow 1.8s ease-in-out infinite alternate;
   }
 
+  /* Glow animation around hero logo */
+  .hero-logo-glow {
+    box-shadow:
+      0 0 24px rgba(255, 215, 0, 0.75),
+      0 0 60px rgba(56, 189, 248, 0.5);
+    animation: hero-logo-pulse 2.4s ease-in-out infinite alternate;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -72,6 +80,21 @@ textarea {
     to {
       text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 24px rgba(255, 215, 0, 0.8);
       transform: scale(1.03);
+    }
+  }
+
+  @keyframes hero-logo-pulse {
+    from {
+      box-shadow:
+        0 0 18px rgba(255, 215, 0, 0.6),
+        0 0 40px rgba(56, 189, 248, 0.35);
+      transform: translateY(0) scale(1);
+    }
+    to {
+      box-shadow:
+        0 0 30px rgba(255, 215, 0, 0.9),
+        0 0 80px rgba(56, 189, 248, 0.75);
+      transform: translateY(-4px) scale(1.02);
     }
   }
 }

@@ -47,7 +47,7 @@ const AppContent: React.FC = () => {
     <UserContext.Provider value={user}>
       {/* ✅ Navbar (only visible after login) */}
       {user && (
-        <nav className="bg-white shadow-md sticky top-0 z-50">
+        <nav className="sticky top-0 z-50 bg-white/10 backdrop-blur-xl border-b border-white/20 shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex items-center justify-between h-16">
               {/* Left: Logo */}
@@ -97,7 +97,7 @@ const AppContent: React.FC = () => {
 
             {/* Mobile navigation */}
             {isNavOpen && (
-              <div className="md:hidden pb-3 border-t border-gray-100">
+              <div className="md:hidden pb-3 border-t border-white/20 bg-white/10 backdrop-blur-xl">
                 <div className="flex flex-col gap-1 pt-3 text-[#003366] font-medium">
                   <Link
                     to="/home"
