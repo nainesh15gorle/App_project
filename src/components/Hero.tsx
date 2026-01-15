@@ -57,7 +57,7 @@ export default function Hero() {
 
             {/* Title */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              SRM E-Yantra Lab
+              Spatial Computing Lab
               <br />
               <span className="text-[#FFD700]">Inventory Management</span>
             </h1>

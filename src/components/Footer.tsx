@@ -16,7 +16,7 @@ export default function Footer() {
                 className="w-15 h-10 object-contain rounded-lg bg-white bg-opacity-20 p-1"
               />
               <div>
-                <h3 className="font-bold text-lg">SRM E-Yantra Lab</h3>
+                <h3 className="font-bold text-lg">Spatial Computing Lab</h3>
                 <p className="text-sm text-gray-300">Inventory Management System</p>
               </div>
             </div>

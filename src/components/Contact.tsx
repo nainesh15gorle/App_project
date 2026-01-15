@@ -35,10 +35,10 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold mb-1">Email</h4>
                   <a
-                    href="mailto:eyantra@srmist.edu.in"
+                    href="mailto:eyantractechsrmist.gmail.com"
                     className="text-[#FFD700] hover:underline"
                   >
-                    eyantra@srmist.edu.in
+                    eyantractechsrmist.gmail.com
                   </a>
                 </div>
               </div>
@@ -49,7 +49,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-semibold mb-1">Phone</h4>
-                  <p className="text-gray-100">+91 44 2745 xxxx</p>
+                  <p className="text-gray-100">+91 98848 23354 </p>
                 </div>
               </div>
 
