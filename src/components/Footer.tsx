@@ -11,7 +11,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <img
-                src="/dist/assets/srm-logo-CN5t8uGG.png"
+                src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768457377/srm-logo-CN5t8uGG_jiilzz.png"
                 alt="SRM Institute of Science and Technology"
                 className="w-15 h-10 object-contain rounded-lg bg-white bg-opacity-20 p-1"
               />
@@ -58,6 +58,7 @@ export default function Footer() {
     src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768457283/strip_kcwzi6.png"
     alt="SRM Logo"
     className="w-full max-w-[4400px] h-auto object-contain rounded-lg bg-white bg-opacity-20 p-1"
+    style={{width:"608px"}}
   />
 </div>
 
