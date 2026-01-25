@@ -34,7 +34,7 @@ app.use(
 );
 
 // Handle preflight requests
-app.options("*", cors());
+
 
 /* ---------- FIREBASE ADMIN ---------- */
 
