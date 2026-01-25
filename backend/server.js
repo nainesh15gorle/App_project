@@ -4,32 +4,51 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import fs from "fs";
 import admin from "firebase-admin";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import { connectDB } from "./model/db.js";
 import Item from "./model/schema.model.js";
 import Borrow from "./model/BorrowSchema.js";
 import Return from "./model/ReturnSchema.js";
 
+/* ---------- CONFIG ---------- */
 dotenv.config();
 connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/* ---------- MIDDLEWARE ---------- */
+/* ---------- MIDDLEWARE (ORDER MATTERS) ---------- */
+
+// JSON parser
 app.use(express.json());
 
+// CORS – production-safe
 app.use(
   cors({
-    origin: ["https://spatialcomputinglab.vercel.app"],
-    credentials: true,
+    origin: "https://spatialcomputinglab.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 
+// Handle preflight requests
+app.options("*", cors());
+
 /* ---------- FIREBASE ADMIN ---------- */
+
+// Fix for ES modules path resolution
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const serviceAccountPath = path.join(
+  __dirname,
+  "serviceAccountKey.json"
+);
+
 const serviceAccount = JSON.parse(
-  fs.readFileSync(new URL("./serviceAccountKey.json", import.meta.url))
+  fs.readFileSync(serviceAccountPath, "utf8")
 );
 
 admin.initializeApp({
@@ -38,17 +57,18 @@ admin.initializeApp({
 
 /* ---------- ROUTES ---------- */
 
-// Health check
+// Health check (VERY IMPORTANT for Render)
 app.get("/", (req, res) => {
-  res.send("Backend running");
+  res.status(200).json({ status: "Backend running" });
 });
 
-// Get all inventory items
+/* ---------- ITEMS ---------- */
 app.get("/items", async (req, res) => {
   try {
     const items = await Item.find();
-    res.json(items);
-  } catch {
+    res.status(200).json(items);
+  } catch (err) {
+    console.error("Fetch items error:", err);
     res.status(500).json({ message: "Server Error" });
   }
 });
@@ -57,15 +77,15 @@ app.get("/items", async (req, res) => {
 app.post("/borrow", async (req, res) => {
   const { name, registrationNumber, COMPONENTS, QUANTITY } = req.body;
 
+  if (!name || !registrationNumber || !COMPONENTS || QUANTITY == null) {
+    return res.status(400).json({ message: "Missing fields" });
+  }
+
+  if (isNaN(QUANTITY) || QUANTITY <= 0) {
+    return res.status(400).json({ message: "Invalid quantity" });
+  }
+
   try {
-    if (!name || !registrationNumber || !COMPONENTS || QUANTITY == null) {
-      return res.status(400).json({ message: "Missing fields" });
-    }
-
-    if (isNaN(QUANTITY) || QUANTITY <= 0) {
-      return res.status(400).json({ message: "Invalid quantity" });
-    }
-
     await Borrow.create({
       name,
       registrationNumber,
@@ -73,19 +93,18 @@ app.post("/borrow", async (req, res) => {
       QUANTITY,
     });
 
-    res.json({ message: "Borrow successful" });
+    res.status(201).json({ message: "Borrow successful" });
   } catch (err) {
-    console.error(err);
+    console.error("Borrow error:", err);
     res.status(500).json({ message: "Server Error" });
   }
 });
 
-  
 /* ---------- RETURN ---------- */
 app.post("/return", async (req, res) => {
   const { name, registrationNumber, component, quantity } = req.body;
 
-  if (!name || !registrationNumber || !component || !quantity) {
+  if (!name || !registrationNumber || !component || quantity == null) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -94,9 +113,6 @@ app.post("/return", async (req, res) => {
   }
 
   try {
-
-
-    // Save return record
     await Return.create({
       name,
       registrationNumber,
@@ -104,14 +120,14 @@ app.post("/return", async (req, res) => {
       quantity,
     });
 
-    res.json({ message: "Return successful" });
+    res.status(201).json({ message: "Return successful" });
   } catch (err) {
-    console.error(err);
+    console.error("Return error:", err);
     res.status(500).json({ message: "Server Error" });
   }
 });
 
-
+/* ---------- SERVER ---------- */
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
