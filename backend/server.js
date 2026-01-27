@@ -19,33 +19,34 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/* ---------- MIDDLEWARE (ORDER MATTERS) ---------- */
+/* ---------- MIDDLEWARE ---------- */
 
 // JSON parser
 app.use(express.json());
 
-// CORS – production-safe
+// ✅ CORS (FIXED)
 app.use(
   cors({
-    origin: "https://spatialcomputinglab.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: [
+      "https://spatialcomputinglab.vercel.app",
+      "http://localhost:5173"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-// Handle preflight requests
-
+// ✅ Handle preflight requests (THIS WAS MISSING)
+app.options("*", cors());
 
 /* ---------- FIREBASE ADMIN ---------- */
 
-// Fix for ES modules path resolution
+// ES module path fix
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const serviceAccountPath = path.join(
-  __dirname,
-  "serviceAccountKey.json"
-);
+const serviceAccountPath = path.join(__dirname, "serviceAccountKey.json");
 
 const serviceAccount = JSON.parse(
   fs.readFileSync(serviceAccountPath, "utf8")
@@ -57,9 +58,9 @@ admin.initializeApp({
 
 /* ---------- ROUTES ---------- */
 
-// Health check (VERY IMPORTANT for Render)
+// Health check (Render requirement)
 app.get("/", (req, res) => {
-  res.status(200).json({ status: "Backend running" });
+  res.status(200).json({ status: "Backend running 🚀" });
 });
 
 /* ---------- ITEMS ---------- */
