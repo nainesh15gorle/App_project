@@ -22,26 +22,30 @@ const PORT = process.env.PORT || 3000;
 /* ---------- MIDDLEWARE ---------- */
 app.use(express.json());
 
-// Optimized CORS
+// Allowed origins
 const allowedOrigins = [
   "https://spatialcomputinglab.vercel.app",
-  "http://localhost:5173"
+  "http://localhost:5173",
 ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-}));
+// CORS setup
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
-app.options("*", cors());
+// ✅ FIXED: wildcard must be "/*"
+app.options("/*", cors());
 
 /* ---------- FIREBASE ADMIN ---------- */
 const __filename = fileURLToPath(import.meta.url);
@@ -49,11 +53,14 @@ const __dirname = path.dirname(__filename);
 
 try {
   const serviceAccountPath = path.join(__dirname, "serviceAccountKey.json");
-  const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
+  const serviceAccount = JSON.parse(
+    fs.readFileSync(serviceAccountPath, "utf8")
+  );
 
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
   });
+
   console.log("Firebase Admin Initialized ✅");
 } catch (error) {
   console.error("Firebase Auth Error ❌:", error.message);
@@ -61,8 +68,12 @@ try {
 
 /* ---------- ROUTES ---------- */
 
+// Health check
 app.get("/", (req, res) => {
-  res.status(200).json({ status: "Backend running 🚀", timestamp: new Date() });
+  res.status(200).json({
+    status: "Backend running 🚀",
+    timestamp: new Date(),
+  });
 });
 
 /* ---------- ITEMS ---------- */
@@ -84,25 +95,34 @@ app.post("/borrow", async (req, res) => {
   }
 
   try {
-    // 1. Check if item exists and has enough stock
     const item = await Item.findOne({ name: COMPONENTS });
-    
+
     if (!item) {
-      return res.status(404).json({ message: "Component not found in inventory" });
+      return res
+        .status(404)
+        .json({ message: "Component not found in inventory" });
     }
 
     if (item.QUANTITY < QUANTITY) {
-      return res.status(400).json({ message: `Insufficient stock. Only ${item.QUANTITY} left.` });
+      return res.status(400).json({
+        message: `Insufficient stock. Only ${item.QUANTITY} left.`,
+      });
     }
 
-    // 2. Create Borrow Record
-    await Borrow.create({ name, registrationNumber, COMPONENTS, QUANTITY });
+    await Borrow.create({
+      name,
+      registrationNumber,
+      COMPONENTS,
+      QUANTITY,
+    });
 
-    // 3. Update Inventory (Decrease count)
     item.QUANTITY -= QUANTITY;
     await item.save();
 
-    res.status(201).json({ message: "Borrow successful", remainingStock: item.QUANTITY });
+    res.status(201).json({
+      message: "Borrow successful",
+      remainingStock: item.QUANTITY,
+    });
   } catch (err) {
     console.error("Borrow error:", err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -118,7 +138,6 @@ app.post("/return", async (req, res) => {
   }
 
   try {
-    // 1. Create Return Record
     await Return.create({
       name,
       registrationNumber,
@@ -126,7 +145,6 @@ app.post("/return", async (req, res) => {
       quantity: Number(quantity),
     });
 
-    // 2. Update Inventory (Increase count)
     const item = await Item.findOne({ name: component });
     if (item) {
       item.QUANTITY += Number(quantity);
@@ -138,6 +156,11 @@ app.post("/return", async (req, res) => {
     console.error("Return error:", err);
     res.status(500).json({ message: "Internal Server Error" });
   }
+});
+
+/* ---------- 404 HANDLER (OPTIONAL BUT RECOMMENDED) ---------- */
+app.use("/*", (req, res) => {
+  res.status(404).json({ message: "Route not found" });
 });
 
 /* ---------- SERVER ---------- */
