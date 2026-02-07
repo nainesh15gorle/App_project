@@ -10,7 +10,7 @@ export default function ItemDisplay() {
   // Fetch items from backend
   useEffect(() => {
     axios
-      .get('https://app-project-7ogo.onrender.com/items')
+      .get('http://localhost:3000/items') // Change to your backend URL if different
       .then((res) => {
         console.log('✅ Items fetched:', res.data);
         setItems(res.data);

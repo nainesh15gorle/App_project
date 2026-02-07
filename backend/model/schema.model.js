@@ -9,14 +9,13 @@ const ItemSchema = new Schema(
       unique: true,
       trim: true,
     },
-
     QUANTITY: {
       type: Number,
       required: true,
       min: 0,
     },
   },
-  { collection: "items" }
+  { collection: "csvdata" }   // ✅ must match MongoDB
 );
 
 export default mongoose.model("Item", ItemSchema);

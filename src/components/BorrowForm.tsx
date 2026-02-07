@@ -19,7 +19,7 @@ import AutorenewIcon from "@mui/icons-material/Autorenew";
 
 /* ================= CONFIG ================= */
 
-const API_BASE_URL = "https://app-project-1-uqey.onrender.com";
+const API_BASE_URL = "http://localhost:3000"; // Change to your backend URL if different
 
 /* ================= TYPES ================= */
 
