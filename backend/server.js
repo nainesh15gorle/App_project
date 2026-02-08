@@ -5,7 +5,6 @@ import fs from "fs";
 import admin from "firebase-admin";
 import path from "path";
 import { fileURLToPath } from "url";
-import mongoose from "mongoose";
 
 // Database imports
 import { connectDB } from "./model/db.js";
@@ -46,6 +45,7 @@ app.use(
 );
 
 // ✅ FIXED: wildcard must be "/*"
+app.options("/*", cors());
 
 /* ---------- FIREBASE ADMIN ---------- */
 const __filename = fileURLToPath(import.meta.url);
@@ -79,27 +79,10 @@ app.get("/", (req, res) => {
 /* ---------- ITEMS ---------- */
 app.get("/items", async (req, res) => {
   try {
-    const items = await Item.find({});
-    console.log("ITEMS:", items);
+    const items = await Item.find().sort({ name: 1 });
     res.status(200).json(items);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch items" });
-  }
-});
-app.get("/debug", async (req, res) => {
-  try {
-    console.log("DB:", mongoose.connection.name);
-
-    const data = await mongoose.connection.db
-      .collection("csvdata")
-      .find({})
-      .toArray();
-
-    console.log("RAW DATA:", data);
-    res.json(data);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("error");
   }
 });
 
@@ -176,7 +159,9 @@ app.post("/return", async (req, res) => {
 });
 
 /* ---------- 404 HANDLER (OPTIONAL BUT RECOMMENDED) ---------- */
-
+app.use("/*", (req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
 
 /* ---------- SERVER ---------- */
 app.listen(PORT, () => {
