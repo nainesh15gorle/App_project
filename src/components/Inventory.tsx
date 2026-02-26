@@ -62,18 +62,12 @@ export default function ItemDisplay() {
         />
       </div>
 
-      {/* Scroll Buttons - visible on tablet/desktop, mobile uses swipe */}
-      <button
-        onClick={scrollLeft}
-        className="hidden md:flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 bg-[#003366] text-white p-3 rounded-full shadow hover:bg-[#004080]"
-      >
-        <ChevronLeft size={24} />
-      </button>
+
 
       {/* Scrollable Container */}
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto gap-4 px-4 sm:px-8 md:px-12 pb-4 scroll-smooth scrollbar-hide"
+        className="grid grid-cols-3 gap-4 overflow-x-auto gap-4 px-4 sm:px-8 md:px-12 pb-4 scroll-smooth scrollbar-hide"
       >
         {filteredItems.map((item, i) => (
           <div
@@ -93,13 +87,7 @@ export default function ItemDisplay() {
         ))}
       </div>
 
-      {/* Right Scroll Button */}
-      <button
-        onClick={scrollRight}
-        className="hidden md:flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 bg-[#003366] text-white p-3 rounded-full shadow hover:bg-[#004080]"
-      >
-        <ChevronRight size={24} />
-      </button>
+      
     </div>
   );
 }
