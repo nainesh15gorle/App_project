@@ -1,23 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
 
-  // ✅ REQUIRED for correct asset loading in production
-  base: '/',
 
-  server: {
-    port: 5173,
-  },
-
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-  },
-
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-  },
 });

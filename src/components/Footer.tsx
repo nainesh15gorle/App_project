@@ -65,7 +65,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-6 border-t border-white border-opacity-20 text-center text-sm text-gray-400">
-          <p>© {currentYear} SRM E-Yantra Lab. All rights reserved.</p>
+          <p>© {currentYear} SRM Spatial Computing Labs. All rights reserved.</p>
         </div>
       </div>
     </footer>
