@@ -85,7 +85,7 @@ const AppContent: React.FC = () => {
                   Inventory
                 </Link>
                 <Link
-                  to="/dashboard"
+                  to="/"
                   className="px-2 py-2 rounded hover:bg-gray-100"
                   onClick={() => setIsNavOpen(false)}
                 >

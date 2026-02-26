@@ -10,7 +10,7 @@ export default function ItemDisplay() {
   // Fetch items from backend
   useEffect(() => {
     axios
-      .get('https://app-project-7ogo.onrender.com/items')
+      .get('https://sheetdb.io/api/v1/64y33c32syqox')
       .then((res) => {
         console.log('✅ Items fetched:', res.data);
         setItems(res.data);
