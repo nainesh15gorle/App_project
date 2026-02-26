@@ -9,7 +9,6 @@ import {
 import Hero from "./components/Hero";
 import BorrowReturnForm from "./components/BorrowForm";
 import Inventory from "./components/Inventory";
-import Transactions from "./components/Transactions";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
@@ -46,9 +45,7 @@ const AppContent: React.FC = () => {
               <Link to="/dashboard" className="hover:text-blue-700">
                 Borrow/Return
               </Link>
-              <Link to="/transactions" className="hover:text-blue-700">
-                Transactions History
-              </Link>
+
               <Link to="/contact" className="hover:text-blue-700">
                 Contact
               </Link>
@@ -92,13 +89,6 @@ const AppContent: React.FC = () => {
                   Borrow/Return
                 </Link>
                 <Link
-                  to="/transactions"
-                  className="px-2 py-2 rounded hover:bg-gray-100"
-                  onClick={() => setIsNavOpen(false)}
-                >
-                  Transactions History
-                </Link>
-                <Link
                   to="/contact"
                   className="px-2 py-2 rounded hover:bg-gray-100"
                   onClick={() => setIsNavOpen(false)}
@@ -117,7 +107,6 @@ const AppContent: React.FC = () => {
         <Route path="/home" element={<Hero />} />
         <Route path="/dashboard" element={<BorrowReturnForm />} />
         <Route path="/inventory" element={<Inventory />} />
-        <Route path="/transactions" element={<Transactions />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
 
