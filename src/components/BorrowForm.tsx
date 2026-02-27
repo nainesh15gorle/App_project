@@ -1,13 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
-  Box, CircularProgress, FormControl, InputAdornment,
-  InputLabel, ListSubheader, MenuItem, Select,
-  TextField, Typography,
+  Box,
+  CircularProgress,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  ListSubheader,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 const INVENTORY_API = "https://sheetdb.io/api/v1/64y33c32syqox";
-// 👇 create a second SheetDB API for the same Google Sheet, pointing to the log tab
 const LOG_API = "https://sheetdb.io/api/v1/pdhaclnnjhm9k";
 
 interface InventoryItem {
@@ -21,7 +27,8 @@ const whiteInputSx = {
   "& .MuiInputLabel-root": { color: "white" },
   "& .MuiInputLabel-root.Mui-focused": { color: "white" },
   "& .MuiOutlinedInput-root": {
-    "& fieldset": { borderColor: "white" },
+    transition: "all 0.3s ease",
+    "& fieldset": { borderColor: "rgba(255,255,255,0.6)" },
     "&:hover fieldset": { borderColor: "white" },
     "&.Mui-focused fieldset": { borderColor: "white" },
   },
@@ -51,7 +58,10 @@ const BorrowReturnForm: React.FC = () => {
                   COMPONENTS: String(i.COMPONENTS ?? "").trim(),
                   QUANTITY: Number(i.QUANTITY),
                 }))
-                .filter((i) => i.COMPONENTS.length > 0 && Number.isFinite(i.QUANTITY))
+                .filter(
+                  (i) =>
+                    i.COMPONENTS.length > 0 && Number.isFinite(i.QUANTITY)
+                )
             : []
         );
       } catch (err) {
@@ -64,28 +74,27 @@ const BorrowReturnForm: React.FC = () => {
   }, []);
 
   const filteredComponents = useMemo(
-    () => components.filter((c) =>
-      c.COMPONENTS.toLowerCase().includes(searchText.toLowerCase())
-    ),
+    () =>
+      components.filter((c) =>
+        c.COMPONENTS.toLowerCase().includes(searchText.toLowerCase())
+      ),
     [components, searchText]
   );
 
   /* ===== BORROW / RETURN ===== */
   const handleAction = async (type: "Borrow" | "Return") => {
-    if (!name || !regNo || !email) return alert("Please fill all user details");
+    if (!name || !regNo || !email)
+      return alert("Please fill all user details");
     if (!selectedComponent) return alert("Select a component");
-    if (quantity <= 0) return alert("Quantity must be > 0");
+    if (quantity <= 0) return alert("Quantity must be greater than 0");
 
-    const current = components.find((c) => c.COMPONENTS === selectedComponent);
+    const current = components.find(
+      (c) => c.COMPONENTS === selectedComponent
+    );
     if (!current) return alert("Component not found!");
 
-    if (type === "Borrow" && quantity > current.QUANTITY) {
+    if (type === "Borrow" && quantity > current.QUANTITY)
       return alert(`Only ${current.QUANTITY} left in stock!`);
-    }
-
-    if (type === "Return" && quantity > (50 - current.QUANTITY)) {
-      // optional sanity check — remove if not needed
-    }
 
     setSubmitting(true);
 
@@ -95,8 +104,8 @@ const BorrowReturnForm: React.FC = () => {
           ? current.QUANTITY - quantity
           : current.QUANTITY + quantity;
 
-      // Step 1 — log the entry
-      await fetch(`${LOG_API}`, {
+      // Log action
+      await fetch(LOG_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -112,9 +121,11 @@ const BorrowReturnForm: React.FC = () => {
         }),
       });
 
-      // Step 2 — update inventory quantity
+      // Update inventory
       await fetch(
-        `${INVENTORY_API}/COMPONENTS/${encodeURIComponent(selectedComponent)}`,
+        `${INVENTORY_API}/COMPONENTS/${encodeURIComponent(
+          selectedComponent
+        )}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -124,22 +135,23 @@ const BorrowReturnForm: React.FC = () => {
         }
       );
 
-      // Step 3 — update UI
+      // Update UI
       setComponents((prev) =>
         prev.map((c) =>
-          c.COMPONENTS === selectedComponent ? { ...c, QUANTITY: newQty } : c
+          c.COMPONENTS === selectedComponent
+            ? { ...c, QUANTITY: newQty }
+            : c
         )
       );
 
       alert(`${type} successful!`);
 
-      // reset form
+      // Reset
       setName("");
       setRegNo("");
       setEmail("");
       setSelectedComponent("");
       setQuantity(1);
-
     } catch (err) {
       console.error(err);
       alert("Something went wrong. Please try again.");
@@ -150,39 +162,57 @@ const BorrowReturnForm: React.FC = () => {
 
   /* ===== UI ===== */
   return (
-    <Box className="min-h-screen bg-[#001f42] flex items-center justify-center p-4">
-      <Box className="w-full max-w-2xl bg-white/5 rounded-2xl p-6 text-white">
-        <Typography variant="h5" color="white" mb={3}>
-          Borrow / Return Form
+    <Box className="min-h-screen bg-gradient-to-br from-[#001f42] via-[#002b5c] to-[#001933] flex items-center justify-center p-6">
+      <Box
+        className="w-full max-w-2xl rounded-3xl p-8 text-white backdrop-blur-xl 
+        bg-white/10 border border-white/20 shadow-2xl
+        transition-all duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]"
+      >
+        <Typography variant="h4" fontWeight="bold" mb={4}>
+          Borrow / Return
         </Typography>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <TextField label="Name" value={name}
-            onChange={(e) => setName(e.target.value)} fullWidth sx={whiteInputSx} />
-          <TextField label="Reg No" value={regNo}
-            onChange={(e) => setRegNo(e.target.value)} fullWidth sx={whiteInputSx} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <TextField
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            fullWidth
+            sx={whiteInputSx}
+          />
+          <TextField
+            label="Reg No"
+            value={regNo}
+            onChange={(e) => setRegNo(e.target.value)}
+            fullWidth
+            sx={whiteInputSx}
+          />
         </div>
 
-        <TextField label="Email" value={email}
+        <TextField
+          label="Email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
-          fullWidth sx={{ ...whiteInputSx, mb: 3 }} />
+          fullWidth
+          sx={{ ...whiteInputSx, mb: 4 }}
+        />
 
-        <FormControl fullWidth sx={{ mb: 3 }}>
-          <InputLabel sx={{ color: "white" }}>Select Component</InputLabel>
+        <FormControl fullWidth sx={{ mb: 4 }}>
+          <InputLabel sx={{ color: "white" }}>
+            Select Component
+          </InputLabel>
           <Select
             value={selectedComponent}
             label="Select Component"
             onChange={(e) => setSelectedComponent(e.target.value)}
             onClose={() => setSearchText("")}
-            sx={{
-              color: "white",
-              "& .MuiOutlinedInput-notchedOutline": { borderColor: "white" },
-              "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "white" },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "white" },
-            }}
+            sx={whiteInputSx}
           >
             <ListSubheader>
-              <TextField size="small" placeholder="Search..." fullWidth
+              <TextField
+                size="small"
+                placeholder="Search..."
+                fullWidth
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 onKeyDown={(e) => e.stopPropagation()}
@@ -203,7 +233,10 @@ const BorrowReturnForm: React.FC = () => {
               </MenuItem>
             ) : (
               filteredComponents.map((item) => (
-                <MenuItem key={item.COMPONENTS} value={item.COMPONENTS}>
+                <MenuItem
+                  key={item.COMPONENTS}
+                  value={item.COMPONENTS}
+                >
                   {item.COMPONENTS} ({item.QUANTITY} left)
                 </MenuItem>
               ))
@@ -211,18 +244,38 @@ const BorrowReturnForm: React.FC = () => {
           </Select>
         </FormControl>
 
-        <TextField label="Quantity" type="number" fullWidth value={quantity}
-          onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
-          sx={{ ...whiteInputSx, mb: 3 }} />
+        <TextField
+          label="Quantity"
+          type="number"
+          fullWidth
+          value={quantity}
+          onChange={(e) =>
+            setQuantity(Math.max(1, Number(e.target.value)))
+          }
+          sx={{ ...whiteInputSx, mb: 6 }}
+        />
 
-        <div className="flex gap-4">
-          <button onClick={() => handleAction("Borrow")} disabled={submitting}
-            className="flex-1 bg-yellow-400 py-3 rounded-lg font-bold text-black disabled:opacity-50">
-            {submitting ? "..." : "BORROW"}
+        <div className="flex gap-6">
+          <button
+            onClick={() => handleAction("Borrow")}
+            disabled={submitting}
+            className="flex-1 bg-yellow-400 text-black py-3 rounded-xl font-bold 
+            transition-all duration-300 ease-out
+            hover:scale-[1.03] hover:shadow-xl
+            active:scale-95 disabled:opacity-50"
+          >
+            {submitting ? "Processing..." : "BORROW"}
           </button>
-          <button onClick={() => handleAction("Return")} disabled={submitting}
-            className="flex-1 border border-yellow-400 text-yellow-400 py-3 rounded-lg font-bold disabled:opacity-50">
-            {submitting ? "..." : "RETURN"}
+
+          <button
+            onClick={() => handleAction("Return")}
+            disabled={submitting}
+            className="flex-1 border-2 border-yellow-400 text-yellow-400 py-3 rounded-xl font-bold 
+            transition-all duration-300 ease-out
+            hover:bg-yellow-400 hover:text-black hover:scale-[1.03]
+            active:scale-95 disabled:opacity-50"
+          >
+            {submitting ? "Processing..." : "RETURN"}
           </button>
         </div>
       </Box>
