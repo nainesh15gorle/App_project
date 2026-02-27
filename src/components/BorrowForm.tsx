@@ -23,7 +23,6 @@ interface InventoryItem {
 
 const whiteInputSx = {
   "& .MuiInputBase-input": { color: "white" },
-  "& .MuiInputBase-input::placeholder": { color: "white", opacity: 1 },
   "& .MuiInputLabel-root": { color: "white" },
   "& .MuiInputLabel-root.Mui-focused": { color: "white" },
   "& .MuiOutlinedInput-root": {
@@ -45,6 +44,17 @@ const BorrowReturnForm: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  // ✅ Premium Popup State
+  const [popup, setPopup] = useState<{
+    open: boolean;
+    type: "success" | "error";
+    message: string;
+  }>({
+    open: false,
+    type: "success",
+    message: "",
+  });
+
   /* ===== FETCH INVENTORY ===== */
   useEffect(() => {
     const fetchInventory = async () => {
@@ -65,7 +75,7 @@ const BorrowReturnForm: React.FC = () => {
             : []
         );
       } catch (err) {
-        console.error(err);
+        showError("Failed to load inventory");
       } finally {
         setLoading(false);
       }
@@ -81,20 +91,34 @@ const BorrowReturnForm: React.FC = () => {
     [components, searchText]
   );
 
+  /* ===== POPUP HELPERS ===== */
+  const showSuccess = (message: string) => {
+    setPopup({ open: true, type: "success", message });
+    setTimeout(() => {
+      setPopup((prev) => ({ ...prev, open: false }));
+    }, 2500);
+  };
+
+  const showError = (message: string) => {
+    setPopup({ open: true, type: "error", message });
+  };
+
   /* ===== BORROW / RETURN ===== */
   const handleAction = async (type: "Borrow" | "Return") => {
     if (!name || !regNo || !email)
-      return alert("Please fill all user details");
-    if (!selectedComponent) return alert("Select a component");
-    if (quantity <= 0) return alert("Quantity must be greater than 0");
+      return showError("Please fill all user details");
+    if (!selectedComponent)
+      return showError("Select a component");
+    if (quantity <= 0)
+      return showError("Quantity must be greater than 0");
 
     const current = components.find(
       (c) => c.COMPONENTS === selectedComponent
     );
-    if (!current) return alert("Component not found!");
+    if (!current) return showError("Component not found");
 
     if (type === "Borrow" && quantity > current.QUANTITY)
-      return alert(`Only ${current.QUANTITY} left in stock!`);
+      return showError(`Only ${current.QUANTITY} left in stock`);
 
     setSubmitting(true);
 
@@ -104,7 +128,6 @@ const BorrowReturnForm: React.FC = () => {
           ? current.QUANTITY - quantity
           : current.QUANTITY + quantity;
 
-      // Log action
       await fetch(LOG_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -121,7 +144,6 @@ const BorrowReturnForm: React.FC = () => {
         }),
       });
 
-      // Update inventory
       await fetch(
         `${INVENTORY_API}/COMPONENTS/${encodeURIComponent(
           selectedComponent
@@ -135,7 +157,6 @@ const BorrowReturnForm: React.FC = () => {
         }
       );
 
-      // Update UI
       setComponents((prev) =>
         prev.map((c) =>
           c.COMPONENTS === selectedComponent
@@ -144,76 +165,50 @@ const BorrowReturnForm: React.FC = () => {
         )
       );
 
-      alert(`${type} successful!`);
+      showSuccess(`${type} successful!`);
 
-      // Reset
       setName("");
       setRegNo("");
       setEmail("");
       setSelectedComponent("");
       setQuantity(1);
     } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Please try again.");
+      showError("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  /* ===== UI ===== */
   return (
     <Box className="min-h-screen bg-gradient-to-br from-[#001f42] via-[#002b5c] to-[#001933] flex items-center justify-center p-6">
-      <Box
-        className="w-full max-w-2xl rounded-3xl p-8 text-white backdrop-blur-xl 
-        bg-white/10 border border-white/20 shadow-2xl
-        transition-all duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]"
-      >
+      <Box className="w-full max-w-2xl rounded-3xl p-8 text-white backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl transition-all duration-500">
+
         <Typography variant="h4" fontWeight="bold" mb={4}>
           Borrow / Return
         </Typography>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <TextField
-            label="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            fullWidth
-            sx={whiteInputSx}
-          />
-          <TextField
-            label="Reg No"
-            value={regNo}
-            onChange={(e) => setRegNo(e.target.value)}
-            fullWidth
-            sx={whiteInputSx}
-          />
+          <TextField label="Name" value={name}
+            onChange={(e) => setName(e.target.value)} fullWidth sx={whiteInputSx} />
+          <TextField label="Reg No" value={regNo}
+            onChange={(e) => setRegNo(e.target.value)} fullWidth sx={whiteInputSx} />
         </div>
 
-        <TextField
-          label="Email"
-          value={email}
+        <TextField label="Email" value={email}
           onChange={(e) => setEmail(e.target.value)}
-          fullWidth
-          sx={{ ...whiteInputSx, mb: 4 }}
-        />
+          fullWidth sx={{ ...whiteInputSx, mb: 4 }} />
 
         <FormControl fullWidth sx={{ mb: 4 }}>
-          <InputLabel sx={{ color: "white" }}>
-            Select Component
-          </InputLabel>
-          <Select
-            value={selectedComponent}
+          <InputLabel sx={{ color: "white" }}>Select Component</InputLabel>
+          <Select value={selectedComponent}
             label="Select Component"
             onChange={(e) => setSelectedComponent(e.target.value)}
             onClose={() => setSearchText("")}
             sx={whiteInputSx}
           >
             <ListSubheader>
-              <TextField
-                size="small"
-                placeholder="Search..."
-                fullWidth
-                value={searchText}
+              <TextField size="small" placeholder="Search..."
+                fullWidth value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 onKeyDown={(e) => e.stopPropagation()}
                 sx={whiteInputSx}
@@ -233,10 +228,7 @@ const BorrowReturnForm: React.FC = () => {
               </MenuItem>
             ) : (
               filteredComponents.map((item) => (
-                <MenuItem
-                  key={item.COMPONENTS}
-                  value={item.COMPONENTS}
-                >
+                <MenuItem key={item.COMPONENTS} value={item.COMPONENTS}>
                   {item.COMPONENTS} ({item.QUANTITY} left)
                 </MenuItem>
               ))
@@ -244,25 +236,19 @@ const BorrowReturnForm: React.FC = () => {
           </Select>
         </FormControl>
 
-        <TextField
-          label="Quantity"
-          type="number"
-          fullWidth
+        <TextField label="Quantity" type="number" fullWidth
           value={quantity}
           onChange={(e) =>
             setQuantity(Math.max(1, Number(e.target.value)))
           }
-          sx={{ ...whiteInputSx, mb: 6 }}
-        />
+          sx={{ ...whiteInputSx, mb: 6 }} />
 
         <div className="flex gap-6">
           <button
             onClick={() => handleAction("Borrow")}
             disabled={submitting}
             className="flex-1 bg-yellow-400 text-black py-3 rounded-xl font-bold 
-            transition-all duration-300 ease-out
-            hover:scale-[1.03] hover:shadow-xl
-            active:scale-95 disabled:opacity-50"
+            transition-all duration-300 hover:scale-[1.03] active:scale-95 disabled:opacity-50"
           >
             {submitting ? "Processing..." : "BORROW"}
           </button>
@@ -271,14 +257,43 @@ const BorrowReturnForm: React.FC = () => {
             onClick={() => handleAction("Return")}
             disabled={submitting}
             className="flex-1 border-2 border-yellow-400 text-yellow-400 py-3 rounded-xl font-bold 
-            transition-all duration-300 ease-out
-            hover:bg-yellow-400 hover:text-black hover:scale-[1.03]
+            transition-all duration-300 hover:bg-yellow-400 hover:text-black hover:scale-[1.03]
             active:scale-95 disabled:opacity-50"
           >
             {submitting ? "Processing..." : "RETURN"}
           </button>
         </div>
       </Box>
+
+      {/* ✅ Animated Popup */}
+      {popup.open && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+          <div className="bg-white rounded-2xl p-8 w-[90%] max-w-sm text-center shadow-2xl animate-fadeIn">
+            <div className={`w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full 
+              ${popup.type === "success" ? "bg-green-100" : "bg-red-100"}`}>
+              <span className={`text-3xl 
+                ${popup.type === "success" ? "text-green-600" : "text-red-600"}`}>
+                {popup.type === "success" ? "✓" : "✕"}
+              </span>
+            </div>
+
+            <h3 className={`text-xl font-bold mb-2 
+              ${popup.type === "success" ? "text-green-600" : "text-red-600"}`}>
+              {popup.type === "success" ? "Success!" : "Error"}
+            </h3>
+
+            <p className="text-gray-600 mb-6">{popup.message}</p>
+
+            <button
+              onClick={() => setPopup({ ...popup, open: false })}
+              className="px-6 py-2 bg-[#003366] text-white rounded-lg 
+              hover:scale-105 transition-all duration-300"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </Box>
   );
 };
