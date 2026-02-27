@@ -1,35 +1,34 @@
-import { ArrowRight, Bot } from "lucide-react";
+import { ArrowRight, Bot, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative bg-gradient-to-br from-[#003366] via-[#004080] to-[#003366] text-white overflow-hidden">
+    <div className="relative bg-gradient-to-br from-[#001a33] via-[#00264d] to-[#001a33] text-white overflow-hidden">
 
-      {/* Decorative background */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-64 h-64 bg-[#FFD700] rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
+      {/* Background Glow Orbs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Corporate Glow Logo */}
-      <div className="absolute right-20 top-28 w-[400px] h-[400px] hidden md:block">
+      {/* Startup Logo Glow */}
+      <div className="absolute right-20 top-28 w-[420px] h-[420px] hidden lg:block">
 
-        {/* Soft Radial Halo */}
-        <div className="absolute inset-0 rounded-3xl 
-          bg-white/10 
-          blur-2xl 
-          scale-110">
+        <div className="absolute inset-0 rounded-full 
+          bg-gradient-to-r from-blue-500/30 to-indigo-500/30 
+          blur-3xl animate-pulse">
         </div>
 
-        {/* Clean Elevated Card */}
         <div className="relative rounded-3xl 
-          bg-white 
-          p-6 
-          shadow-xl 
+          bg-white/5 backdrop-blur-xl 
+          border border-white/10
+          p-8 
+          shadow-[0_0_60px_rgba(59,130,246,0.5)]
           transition-all duration-500 
-          hover:shadow-2xl"
+          hover:shadow-[0_0_100px_rgba(59,130,246,0.8)]
+          hover:scale-105"
         >
           <img
             src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768458362/logo_kcf8rw.png"
@@ -40,38 +39,46 @@ export default function Hero() {
       </div>
 
       {/* Main Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-        <div className="flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1 text-center md:text-left">
+      <div className="relative max-w-7xl mx-auto px-6 py-24">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
+
+          <div className="flex-1 text-center lg:text-left">
 
             {/* Tagline */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-950 bg-opacity-10 rounded-full text-sm mb-6 backdrop-blur-sm">
-              <Bot size={20} className="text-[#FFD700]" />
-              <span>Empowering Innovation through Robotics</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm mb-8 backdrop-blur-md">
+              <Bot size={18} className="text-blue-400" />
+              <span className="text-gray-300">
+                Next-Gen Robotics Infrastructure
+              </span>
             </div>
 
-            {/* Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            {/* Headline */}
+            <h1 className="text-5xl lg:text-6xl font-bold leading-tight mb-6">
               Spatial Computing Lab
               <br />
-              <span className="text-[#FFD700]">
-                Inventory Management
+              <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                Inventory Platform
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl">
-              Streamlined component tracking and checkout system for robotics research
-              and development. Access thousands of components for your next innovation.
+            <p className="text-lg text-gray-300 mb-10 max-w-xl">
+              A scalable, intelligent component tracking system built for robotics
+              innovation teams. Real-time stock visibility. Seamless checkout.
+              Enterprise-ready architecture.
             </p>
 
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+
+              {/* Yellow Browse Button */}
               <button
                 onClick={() => navigate("/inventory")}
-                className="px-8 py-3 bg-[#FFD700] text-[#003366] rounded-lg 
-                hover:bg-yellow-500 transition-all duration-300 
-                font-semibold flex items-center justify-center gap-2 group"
+                className="px-8 py-4 bg-[#FFD700] text-[#001a33] rounded-xl font-semibold 
+                transition-all duration-300
+                hover:bg-yellow-500 hover:scale-105
+                shadow-[0_0_20px_rgba(255,215,0,0.6)]
+                flex items-center justify-center gap-2 group"
               >
                 Browse Inventory
                 <ArrowRight
@@ -80,17 +87,21 @@ export default function Hero() {
                 />
               </button>
 
+              {/* Red Logout Button */}
               <button
-                onClick={() => navigate("/contact")}
-                className="px-8 py-3 bg-indigo-950 bg-opacity-10 
-                backdrop-blur-sm border-2 border-white border-opacity-30 
-                rounded-lg hover:bg-opacity-20 
-                transition-all duration-300 font-semibold"
+                onClick={() => navigate("/logout")}
+                className="px-8 py-4 rounded-xl font-semibold 
+                bg-red-600 text-white
+                transition-all duration-300
+                hover:bg-red-700 hover:scale-105
+                shadow-[0_0_20px_rgba(220,38,38,0.6)]
+                flex items-center justify-center gap-2"
               >
-                Contact Us
+                <LogOut size={18} />
+                Logout
               </button>
-            </div>
 
+            </div>
           </div>
         </div>
       </div>
