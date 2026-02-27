@@ -1,34 +1,42 @@
-import { ArrowRight, Bot, Package, LogOut } from "lucide-react";
+import { ArrowRight, Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "../App";
 
 export default function Hero() {
   const navigate = useNavigate();
 
-
-
   return (
     <div className="relative bg-gradient-to-br from-[#003366] via-[#004080] to-[#003366] text-white overflow-hidden">
+
       {/* Decorative background */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-20 w-64 h-64 bg-[#FFD700] rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
       </div>
 
+      {/* Hero Logo with Premium Glow */}
+      <div className="absolute right-20 top-28 w-[400px] h-[400px] group hidden md:block">
 
+        {/* Glow Halo */}
+        <div className="absolute inset-0 rounded-3xl 
+          bg-blue-400/30 blur-3xl 
+          opacity-70 
+          transition-all duration-500 
+          group-hover:opacity-100">
+        </div>
 
-
-      {/* Hero logo with animated glow */}
-      <div
-        className="absolute right-8 mr-20 rounded-3xl hero-logo-glow"
-        style={{ width: "400px", height: "400px", top: "120px" }}
-      >
-        <img
-          src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768458362/logo_kcf8rw.png"
-          alt="Spatial Computing Lab logo"
-          className="w-full h-full rounded-3xl object-contain"
-        />
+        {/* Logo Container */}
+        <div className="relative rounded-3xl 
+          shadow-[0_0_40px_rgba(0,119,255,0.6)]
+          hover:shadow-[0_0_80px_rgba(0,119,255,0.9)]
+          transition-all duration-500 
+          hover:scale-105"
+        >
+          <img
+            src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768458362/logo_kcf8rw.png"
+            alt="Spatial Computing Lab logo"
+            className="w-full h-full rounded-3xl object-contain"
+          />
+        </div>
       </div>
 
       {/* Main Content */}
@@ -46,7 +54,9 @@ export default function Hero() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Spatial Computing Lab
               <br />
-              <span className="text-[#FFD700]">Inventory Management</span>
+              <span className="text-[#FFD700]">
+                Inventory Management
+              </span>
             </h1>
 
             {/* Subtitle */}
@@ -59,21 +69,28 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <button
                 onClick={() => navigate("/inventory")}
-                className="px-8 py-3 bg-[#FFD700] text-[#003366] rounded-lg hover:bg-yellow-500 transition-all duration-300 font-semibold flex items-center justify-center gap-2 group"
+                className="px-8 py-3 bg-[#FFD700] text-[#003366] rounded-lg 
+                hover:bg-yellow-500 transition-all duration-300 
+                font-semibold flex items-center justify-center gap-2 group"
               >
                 Browse Inventory
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight
+                  size={20}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
               </button>
 
               <button
                 onClick={() => navigate("/contact")}
-                className="px-8 py-3 bg-indigo-950 cursor-pointer bg-opacity-10 backdrop-blur-sm border-2 border-white border-opacity-30 rounded-lg hover:bg-opacity-20 transition-all duration-300 font-semibold"
+                className="px-8 py-3 bg-indigo-950 bg-opacity-10 
+                backdrop-blur-sm border-2 border-white border-opacity-30 
+                rounded-lg hover:bg-opacity-20 
+                transition-all duration-300 font-semibold"
               >
                 Contact Us
               </button>
-
-
             </div>
+
           </div>
         </div>
       </div>
