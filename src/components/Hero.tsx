@@ -1,4 +1,4 @@
-import { ArrowRight, Bot, LogOut } from "lucide-react";
+import { ArrowRight, Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
@@ -16,11 +16,13 @@ export default function Hero() {
       {/* Startup Logo Glow */}
       <div className="absolute right-20 top-28 w-[420px] h-[420px] hidden lg:block">
 
+        {/* Animated Halo */}
         <div className="absolute inset-0 rounded-full 
           bg-gradient-to-r from-blue-500/30 to-indigo-500/30 
           blur-3xl animate-pulse">
         </div>
 
+        {/* Logo Card */}
         <div className="relative rounded-3xl 
           bg-white/5 backdrop-blur-xl 
           border border-white/10
@@ -68,13 +70,12 @@ export default function Hero() {
               Enterprise-ready architecture.
             </p>
 
-            {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+            {/* Primary Button Only */}
+            <div className="flex justify-center lg:justify-start">
 
-              {/* Yellow Browse Button */}
               <button
                 onClick={() => navigate("/inventory")}
-                className="px-8 py-4 bg-[#FFD700] text-[#001a33] rounded-xl font-semibold 
+                className="px-10 py-4 bg-[#FFD700] text-[#001a33] rounded-xl font-semibold 
                 transition-all duration-300
                 hover:bg-yellow-500 hover:scale-105
                 shadow-[0_0_20px_rgba(255,215,0,0.6)]
@@ -87,21 +88,8 @@ export default function Hero() {
                 />
               </button>
 
-              {/* Red Logout Button */}
-              <button
-                onClick={() => navigate("/logout")}
-                className="px-8 py-4 rounded-xl font-semibold 
-                bg-red-600 text-white
-                transition-all duration-300
-                hover:bg-red-700 hover:scale-105
-                shadow-[0_0_20px_rgba(220,38,38,0.6)]
-                flex items-center justify-center gap-2"
-              >
-                <LogOut size={18} />
-                Logout
-              </button>
-
             </div>
+
           </div>
         </div>
       </div>
