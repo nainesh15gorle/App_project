@@ -7,15 +7,14 @@ export default function ItemDisplay() {
   const [searchTerm, setSearchTerm] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Fetch items from backend
+  // Fetch items
   useEffect(() => {
     axios
       .get('https://sheetdb.io/api/v1/64y33c32syqox')
       .then((res) => {
-        console.log('✅ Items fetched:', res.data);
         setItems(res.data);
       })
-      .catch((err) => console.error('❌ Fetch error:', err.message));
+      .catch((err) => console.error('Fetch error:', err.message));
   }, []);
 
   // Smooth scroll logic
@@ -39,7 +38,7 @@ export default function ItemDisplay() {
     }
   };
 
-  // ✅ Filter + Alphabetical Sort
+  // Filter + Sort
   const filteredItems = items
     .filter((item) =>
       item.COMPONENTS?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -54,33 +53,45 @@ export default function ItemDisplay() {
         Inventory Components
       </h2>
 
-      {/* Search Bar */}
+      {/* Search */}
       <div className="flex justify-center mb-6 px-4">
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search components..."
-          className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+          className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
+          focus:outline-none focus:ring-2 focus:ring-[#003366] focus:border-transparent 
+          transition-all duration-300 ease-out"
         />
       </div>
 
-      {/* Grid Container */}
+      {/* Grid */}
       <div
         ref={scrollRef}
         className="grid grid-cols-3 gap-4 overflow-x-auto px-4 sm:px-8 md:px-12 pb-4 scroll-smooth scrollbar-hide"
+        style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
       >
         {filteredItems.map((item, i) => (
           <div
             key={i}
-            className="min-w-[220px] sm:min-w-[260px] md:min-w-[280px] max-w-xs bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-4 sm:p-6 flex flex-col items-center justify-center border border-gray-100"
+            className="group min-w-[220px] sm:min-w-[260px] md:min-w-[280px] max-w-xs 
+            bg-white rounded-2xl shadow-md 
+            hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02]
+            transition-all duration-300 ease-out 
+            will-change-transform
+            p-4 sm:p-6 flex flex-col items-center justify-center 
+            border border-gray-100"
           >
-            <div className="bg-[#003366]/10 p-4 rounded-full mb-4">
+            <div className="bg-[#003366]/10 p-4 rounded-full mb-4 
+            transition-all duration-300 group-hover:scale-110">
               <Package size={40} className="text-[#003366]" />
             </div>
+
             <h3 className="text-lg font-semibold text-[#003366] text-center">
               {item.COMPONENTS}
             </h3>
+
             <p className="text-sm text-gray-700 mt-3">
               Quantity:{' '}
               <span className="font-medium text-[#003366]">
