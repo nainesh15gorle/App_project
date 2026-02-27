@@ -13,28 +13,28 @@ export default function Hero() {
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Hero Logo with Premium Glow */}
-      <div className="absolute right-20 top-28 w-[400px] h-[400px] group hidden md:block">
+      {/* Corporate Glow Logo */}
+      <div className="absolute right-20 top-28 w-[400px] h-[400px] hidden md:block">
 
-        {/* Glow Halo */}
+        {/* Soft Radial Halo */}
         <div className="absolute inset-0 rounded-3xl 
-          bg-blue-400/30 blur-3xl 
-          opacity-70 
-          transition-all duration-500 
-          group-hover:opacity-100">
+          bg-white/10 
+          blur-2xl 
+          scale-110">
         </div>
 
-        {/* Logo Container */}
+        {/* Clean Elevated Card */}
         <div className="relative rounded-3xl 
-          shadow-[0_0_40px_rgba(0,119,255,0.6)]
-          hover:shadow-[0_0_80px_rgba(0,119,255,0.9)]
+          bg-white 
+          p-6 
+          shadow-xl 
           transition-all duration-500 
-          hover:scale-105"
+          hover:shadow-2xl"
         >
           <img
             src="https://res.cloudinary.com/drcewb1ot/image/upload/v1768458362/logo_kcf8rw.png"
             alt="Spatial Computing Lab logo"
-            className="w-full h-full rounded-3xl object-contain"
+            className="w-full h-full rounded-2xl object-contain"
           />
         </div>
       </div>
@@ -94,7 +94,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
