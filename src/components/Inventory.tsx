@@ -18,11 +18,10 @@ export default function ItemDisplay() {
       .catch((err) => console.error('❌ Fetch error:', err.message));
   }, []);
 
-  // Smooth, responsive scroll handlers
+  // Smooth scroll logic
   const scrollByAmount = () => {
     const container = scrollRef.current;
     if (!container) return 0;
-    // Scroll by ~80% of the visible width for a smoother experience
     return container.clientWidth * 0.8;
   };
 
@@ -40,10 +39,14 @@ export default function ItemDisplay() {
     }
   };
 
-  // Filter items based on search term
-  const filteredItems = items.filter((item) =>
-    item.COMPONENTS?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // ✅ Filter + Alphabetical Sort
+  const filteredItems = items
+    .filter((item) =>
+      item.COMPONENTS?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) =>
+      a.COMPONENTS.toLowerCase().localeCompare(b.COMPONENTS.toLowerCase())
+    );
 
   return (
     <div className="relative bg-gray-50 py-10 overflow-x-hidden">
@@ -62,12 +65,10 @@ export default function ItemDisplay() {
         />
       </div>
 
-
-
-      {/* Scrollable Container */}
+      {/* Grid Container */}
       <div
         ref={scrollRef}
-        className="grid grid-cols-3 gap-4 overflow-x-auto gap-4 px-4 sm:px-8 md:px-12 pb-4 scroll-smooth scrollbar-hide"
+        className="grid grid-cols-3 gap-4 overflow-x-auto px-4 sm:px-8 md:px-12 pb-4 scroll-smooth scrollbar-hide"
       >
         {filteredItems.map((item, i) => (
           <div
@@ -81,13 +82,14 @@ export default function ItemDisplay() {
               {item.COMPONENTS}
             </h3>
             <p className="text-sm text-gray-700 mt-3">
-              Quantity: <span className="font-medium text-[#003366]">{item.QUANTITY}</span>
+              Quantity:{' '}
+              <span className="font-medium text-[#003366]">
+                {item.QUANTITY}
+              </span>
             </p>
           </div>
         ))}
       </div>
-
-      
     </div>
   );
 }
