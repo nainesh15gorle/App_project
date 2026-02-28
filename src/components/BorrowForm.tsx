@@ -26,7 +26,6 @@ const whiteInputSx = {
   "& .MuiInputLabel-root": { color: "white" },
   "& .MuiInputLabel-root.Mui-focused": { color: "white" },
   "& .MuiOutlinedInput-root": {
-    transition: "all 0.3s ease",
     "& fieldset": { borderColor: "rgba(255,255,255,0.6)" },
     "&:hover fieldset": { borderColor: "white" },
     "&.Mui-focused fieldset": { borderColor: "white" },
@@ -44,23 +43,18 @@ const BorrowReturnForm: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // ✅ Premium Popup State
-  const [popup, setPopup] = useState<{
-    open: boolean;
-    type: "success" | "error";
-    message: string;
-  }>({
+  const [popup, setPopup] = useState({
     open: false,
-    type: "success",
+    type: "success" as "success" | "error",
     message: "",
   });
 
-  /* ===== FETCH INVENTORY ===== */
   useEffect(() => {
     const fetchInventory = async () => {
       try {
         const res = await fetch(INVENTORY_API);
         const data = await res.json();
+
         setComponents(
           Array.isArray(data)
             ? data
@@ -74,24 +68,22 @@ const BorrowReturnForm: React.FC = () => {
                 )
             : []
         );
-      } catch (err) {
+      } catch {
         showError("Failed to load inventory");
       } finally {
         setLoading(false);
       }
     };
+
     fetchInventory();
   }, []);
 
-  const filteredComponents = useMemo(
-    () =>
-      components.filter((c) =>
-        c.COMPONENTS.toLowerCase().includes(searchText.toLowerCase())
-      ),
-    [components, searchText]
-  );
+  const filteredComponents = useMemo(() => {
+    return components.filter((c) =>
+      c.COMPONENTS.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [components, searchText]);
 
-  /* ===== POPUP HELPERS ===== */
   const showSuccess = (message: string) => {
     setPopup({ open: true, type: "success", message });
     setTimeout(() => {
@@ -103,7 +95,6 @@ const BorrowReturnForm: React.FC = () => {
     setPopup({ open: true, type: "error", message });
   };
 
-  /* ===== BORROW / RETURN ===== */
   const handleAction = async (type: "Borrow" | "Return") => {
     if (!name || !regNo || !email)
       return showError("Please fill all user details");
@@ -115,6 +106,7 @@ const BorrowReturnForm: React.FC = () => {
     const current = components.find(
       (c) => c.COMPONENTS === selectedComponent
     );
+
     if (!current) return showError("Component not found");
 
     if (type === "Borrow" && quantity > current.QUANTITY)
@@ -128,6 +120,13 @@ const BorrowReturnForm: React.FC = () => {
           ? current.QUANTITY - quantity
           : current.QUANTITY + quantity;
 
+      const now = new Date();
+      const formattedDateTime = `${String(now.getDate()).padStart(2, "0")}-${String(
+        now.getMonth() + 1
+      ).padStart(2, "0")}-${now.getFullYear()} ${String(
+        now.getHours()
+      ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+
       await fetch(LOG_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -139,7 +138,7 @@ const BorrowReturnForm: React.FC = () => {
             component: selectedComponent,
             quantity,
             type,
-            date: new Date().toLocaleDateString(),
+            date: formattedDateTime,
           },
         }),
       });
@@ -172,7 +171,8 @@ const BorrowReturnForm: React.FC = () => {
       setEmail("");
       setSelectedComponent("");
       setQuantity(1);
-    } catch (err) {
+      setSearchText("");
+    } catch {
       showError("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
@@ -181,7 +181,7 @@ const BorrowReturnForm: React.FC = () => {
 
   return (
     <Box className="min-h-screen bg-gradient-to-br from-[#001f42] via-[#002b5c] to-[#001933] flex items-center justify-center p-6">
-      <Box className="w-full max-w-2xl rounded-3xl p-8 text-white backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl transition-all duration-500">
+      <Box className="w-full max-w-2xl rounded-3xl p-8 text-white backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl">
 
         <Typography variant="h4" fontWeight="bold" mb={4}>
           Borrow / Return
@@ -200,15 +200,19 @@ const BorrowReturnForm: React.FC = () => {
 
         <FormControl fullWidth sx={{ mb: 4 }}>
           <InputLabel sx={{ color: "white" }}>Select Component</InputLabel>
-          <Select value={selectedComponent}
+          <Select
+            value={selectedComponent}
             label="Select Component"
             onChange={(e) => setSelectedComponent(e.target.value)}
             onClose={() => setSearchText("")}
             sx={whiteInputSx}
           >
             <ListSubheader>
-              <TextField size="small" placeholder="Search..."
-                fullWidth value={searchText}
+              <TextField
+                size="small"
+                placeholder="Search..."
+                fullWidth
+                value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 onKeyDown={(e) => e.stopPropagation()}
                 sx={whiteInputSx}
@@ -236,12 +240,16 @@ const BorrowReturnForm: React.FC = () => {
           </Select>
         </FormControl>
 
-        <TextField label="Quantity" type="number" fullWidth
+        <TextField
+          label="Quantity"
+          type="number"
+          fullWidth
           value={quantity}
           onChange={(e) =>
             setQuantity(Math.max(1, Number(e.target.value)))
           }
-          sx={{ ...whiteInputSx, mb: 6 }} />
+          sx={{ ...whiteInputSx, mb: 6 }}
+        />
 
         <div className="flex gap-6">
           <button
@@ -257,37 +265,25 @@ const BorrowReturnForm: React.FC = () => {
             onClick={() => handleAction("Return")}
             disabled={submitting}
             className="flex-1 border-2 border-yellow-400 text-yellow-400 py-3 rounded-xl font-bold 
-            transition-all duration-300 hover:bg-yellow-400 hover:text-black hover:scale-[1.03]
-            active:scale-95 disabled:opacity-50"
+            transition-all duration-300 hover:bg-yellow-400 hover:text-black hover:scale-[1.03]"
           >
             {submitting ? "Processing..." : "RETURN"}
           </button>
         </div>
       </Box>
 
-      {/* ✅ Animated Popup */}
       {popup.open && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-2xl p-8 w-[90%] max-w-sm text-center shadow-2xl animate-fadeIn">
-            <div className={`w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full 
-              ${popup.type === "success" ? "bg-green-100" : "bg-red-100"}`}>
-              <span className={`text-3xl 
-                ${popup.type === "success" ? "text-green-600" : "text-red-600"}`}>
-                {popup.type === "success" ? "✓" : "✕"}
-              </span>
-            </div>
-
-            <h3 className={`text-xl font-bold mb-2 
-              ${popup.type === "success" ? "text-green-600" : "text-red-600"}`}>
+          <div className="bg-white rounded-2xl p-8 w-[90%] max-w-sm text-center shadow-2xl">
+            <h3 className={`text-xl font-bold mb-2 ${
+              popup.type === "success" ? "text-green-600" : "text-red-600"
+            }`}>
               {popup.type === "success" ? "Success!" : "Error"}
             </h3>
-
             <p className="text-gray-600 mb-6">{popup.message}</p>
-
             <button
               onClick={() => setPopup({ ...popup, open: false })}
-              className="px-6 py-2 bg-[#003366] text-white rounded-lg 
-              hover:scale-105 transition-all duration-300"
+              className="px-6 py-2 bg-[#003366] text-white rounded-lg"
             >
               Close
             </button>
