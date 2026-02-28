@@ -1,79 +1,97 @@
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
 export default function Contact() {
   return (
-    <div className="py-12 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-[#003366] mb-3">Contact Us</h2>
-          <p className="text-gray-600">Get in touch with the Spacial Computing Lab team</p>
+    <div className="py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-14">
+          <h2 className="text-4xl font-bold text-[#003366] mb-3">
+            Contact Us
+          </h2>
+          <p className="text-gray-600">
+            Get in touch with the Spatial Computing Lab team
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-gradient-to-br from-[#003366] to-[#004080] rounded-xl shadow-lg p-8 text-white">
-            <h3 className="text-2xl font-bold mb-6">Lab Information</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-white bg-opacity-20 rounded-lg">
-                  <MapPin size={24} />
+          {/* Left Panel */}
+          <div className="bg-gradient-to-br from-[#003366] to-[#004080] rounded-2xl shadow-xl p-10 text-white">
+            <h3 className="text-2xl font-bold mb-8">
+              Lab Information
+            </h3>
+
+            <div className="space-y-8">
+
+              {/* Address */}
+              <div className="flex items-start gap-5">
+                <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <MapPin size={22} />
                 </div>
                 <div>
                   <h4 className="font-semibold mb-1">Address</h4>
-                  <p className="text-gray-100">
-                    Tech Park- 15 Floor ,SRM UNIVERSITY<br />
-                    Kattankulathur, Chennai - 603203<br />
+                  <p className="text-gray-100 leading-relaxed">
+                    Tech Park – 15th Floor, SRM University<br />
+                    Kattankulathur, Chennai – 603203<br />
                     Tamil Nadu, India
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-white bg-opacity-20 rounded-lg">
-                  <Mail size={24} />
+              {/* Email */}
+              <div className="flex items-start gap-5">
+                <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <Mail size={22} />
                 </div>
                 <div>
                   <h4 className="font-semibold mb-1">Email</h4>
                   <a
-                    href="mailto:eyantractechsrmist.gmail.com"
+                    href="mailto:eyantractechsrmist@gmail.com"
                     className="text-[#FFD700] hover:underline"
                   >
-                    eyantractechsrmist.gmail.com
+                    eyantractechsrmist@gmail.com
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-white bg-opacity-20 rounded-lg">
-                  <Phone size={24} />
+              {/* Phone */}
+              <div className="flex items-start gap-5">
+                <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <Phone size={22} />
                 </div>
                 <div>
                   <h4 className="font-semibold mb-1">Phone</h4>
-                  <p className="text-gray-100">+91 98848 23354 </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-white bg-opacity-20 rounded-lg">
-                  <Clock size={24} />
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-1">Lab Hours</h4>
                   <p className="text-gray-100">
-                    Monday - Friday: 9:00 AM - 5:00 PM<br />
-                    Saturday: 9:00 AM - 5:00 PM<br />
-                    Sunday: Closed
-            
+                    +91 98848 23354
                   </p>
                 </div>
               </div>
+
+              {/* Lab Hours */}
+              <div className="flex items-start gap-5">
+                <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <Clock size={22} />
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-1">Lab Hours</h4>
+                  <p className="text-gray-100 leading-relaxed">
+                    Monday – Friday: 9:00 AM – 5:00 PM<br />
+                    Saturday: 9:00 AM – 5:00 PM<br />
+                    Sunday: Closed
+                  </p>
+                </div>
+              </div>
+
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-[#003366] mb-6">About Spatial Computing Lab</h3>
+          {/* Right Panel */}
+          <div className="bg-gray-50 rounded-2xl shadow-xl p-10">
+            <h3 className="text-2xl font-bold text-[#003366] mb-6">
+              About Spatial Computing Lab
+            </h3>
 
-            <div className="space-y-4 text-gray-700">
+            <div className="space-y-4 text-gray-700 leading-relaxed">
               <p>
                 The Spatial Computing Lab is a state-of-the-art robotics and embedded systems
                 laboratory designed to foster innovation and hands-on learning.
@@ -98,14 +116,16 @@ export default function Contact() {
                 and availability of resources.
               </p>
 
-              <div className="mt-6 p-4 bg-[#FFD700] bg-opacity-20 border-l-4 border-[#FFD700] rounded">
+              <div className="mt-6 p-4 bg-[#FFD700]/20 border-l-4 border-[#FFD700] rounded-lg">
                 <p className="text-sm font-medium text-gray-800">
-                  NOTE: For component checkout requests or lab access, please contact us during
-                  lab hours or send an email with your requirements.
+                  NOTE: For component checkout requests or lab access,
+                  please contact us during lab hours or send an email
+                  with your requirements.
                 </p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
